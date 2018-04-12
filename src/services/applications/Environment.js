@@ -1,8 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
 
-
-let baseURL = process.env.MOG_BACKEND_URL || 'http://localhost:8080';
-
-console.log(baseURL);
+const baseURL = process.env.REACT_APP_MOG_BACKEND_URL ||  'http://localhost:8080';
 
 export default class Mog {
 
