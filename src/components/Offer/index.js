@@ -4,12 +4,15 @@ import customStyle from './proposta.css'
 import {Api} from '../../services'
 import SelectedCourses from '../SelectedCourses'
 import {Customer} from '../../domains';
+import Responsible from '../../domains/models/Responsible';
+
 
 class Offer extends Component {
 
     defaultOptions = [];
     state = {
         commercialName: '',
+        responsibleName: '',
         selectedCourses: [],
     };
 
@@ -18,9 +21,9 @@ class Offer extends Component {
 
     handleSubmit = () => {
 
-        const {selectedCourses, commercialName} = this.state;
+        const {selectedCourses, commercialName, responsibleName} = this.state;
 
-        Api.downloadOffer(new Customer(commercialName), selectedCourses);
+        Api.downloadOffer(new Customer(commercialName), new Responsible(responsibleName), selectedCourses);
 
     };
 
@@ -97,15 +100,13 @@ class Offer extends Component {
 
     render() {
 
-        const {commercialName, isLoading, results, value, selectedCourses} = this.state;
-        let disableSubmmit = selectedCourses.length === 0 || commercialName === '';
+        const {commercialName, responsibleName, isLoading, results, value, selectedCourses} = this.state;
+        let disableSubmmit = selectedCourses.length === 0 || commercialName === '' || responsibleName === '';
 
         return (
             <div className={customStyle.content}>
 
-
                 <h1>Cadastro de propostas</h1>
-
 
                 <Divider horizontal>Dados do cliente</Divider>
                 <Form onSubmit={this.handleSubmit}>
@@ -116,7 +117,10 @@ class Offer extends Component {
                                     content={commercialName} onChange={this.handleChange} required/>
                     </Form.Field>
 
-
+                    <Form.Field>
+                        <Form.Input label="Responsável Caelum" name="responsibleName" placeholder="Bianca Cavalcante"
+                                    content={responsibleName} onChange={this.handleChange} required/>
+                    </Form.Field>
 
                     <Divider horizontal>Cursos</Divider>
 

@@ -12,11 +12,11 @@ export default class Api {
                     .then( (courses) => courses.map( (course) => new CourseOptionDTO(course) ) );
     }
 
-    static downloadOffer(customer, coursesDTO){
+    static downloadOffer(customer, responsibleName, coursesDTO){
 
         const courses = coursesDTO.map(dto => dto.toEntity());
 
-        const payload = {   ...customer, courses };
+        const payload = {   ...customer, ...responsibleName, courses};
 
         const headers = {'Content-Type': 'application/json'};
         const request = {method: 'post', body: JSON.stringify(payload), headers }
