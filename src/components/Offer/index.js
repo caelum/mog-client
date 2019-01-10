@@ -5,7 +5,7 @@ import {Api} from '../../services'
 import SelectedCourses from '../SelectedCourses'
 import {Customer} from '../../domains';
 import Responsible from '../../domains/models/Responsible';
-
+import District from '../../domains/models/District';
 
 class Offer extends Component {
 
@@ -13,17 +13,24 @@ class Offer extends Component {
     state = {
         commercialName: '',
         responsibleName: '',
+        caelumDistrict: '',
         selectedCourses: [],
     };
 
 
-    handleChange = (event, {name, value}) => this.setState({[name]: value});
+    handleChange = ({ target }) => {
+        const formElements = target.closest('form').elements
+        const name = target.getAttribute('name')
+        const value = formElements[name].value
+
+        this.setState({[name]: value})
+    };
 
     handleSubmit = () => {
 
-        const {selectedCourses, commercialName, responsibleName} = this.state;
+        const {selectedCourses, commercialName, responsibleName, caelumDistrict} = this.state;
 
-        Api.downloadOffer(new Customer(commercialName), new Responsible(responsibleName), selectedCourses);
+        Api.downloadOffer(new Customer(commercialName), new Responsible(responsibleName), new District(caelumDistrict), selectedCourses);
 
     };
 
@@ -100,8 +107,8 @@ class Offer extends Component {
 
     render() {
 
-        const {commercialName, responsibleName, isLoading, results, value, selectedCourses} = this.state;
-        let disableSubmmit = selectedCourses.length === 0 || commercialName === '' || responsibleName === '';
+        const {commercialName, responsibleName, caelumDistrict, isLoading, results, value, selectedCourses} = this.state;
+        let disableSubmmit = selectedCourses.length === 0 || commercialName === '' || responsibleName === '' || caelumDistrict === '';
 
         return (
             <div className={customStyle.content}>
@@ -120,6 +127,16 @@ class Offer extends Component {
                     <Form.Field>
                         <Form.Input label="Responsável Caelum" name="responsibleName" placeholder="Bianca Cavalcante"
                                     content={responsibleName} onChange={this.handleChange} required/>
+                    </Form.Field>
+
+                    <Form.Field>
+                            <label className="unitLabel" htmlFor="caelumDistrict">Unidade</label>
+                            <select name="caelumDistrict" content={caelumDistrict} onChange={this.handleChange} required>
+                                <option value="" hidden>-- Selecione uma unidade --</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="BSB">Brasília</option>
+                            </select>
                     </Form.Field>
 
                     <Divider horizontal>Cursos</Divider>
