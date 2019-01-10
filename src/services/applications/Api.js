@@ -9,14 +9,15 @@ export default class Api {
         return fetch(Mog.backendURL("/courses"))
                     .then( response => response.json())
                     .then( (values) => values.map( (json) => new Course(json) ) )
-                    .then( (courses) => courses.map( (course) => new CourseOptionDTO(course) ) );
+                    .then( (courses) => courses.map( (course) => new CourseOptionDTO(course) ) )
+                    .catch(console.log("Não foi possível carregar os cursos"));
     }
 
-    static downloadOffer(customer, coursesDTO){
+    static downloadOffer(customer, responsibleName, caelumDistrict, coursesDTO){
 
         const courses = coursesDTO.map(dto => dto.toEntity());
 
-        const payload = {   ...customer, courses };
+        const payload = {   ...customer, ...responsibleName, ...caelumDistrict, courses };
 
         const headers = {'Content-Type': 'application/json'};
         const request = {method: 'post', body: JSON.stringify(payload), headers }
