@@ -6,6 +6,7 @@ import SelectedCourses from '../SelectedCourses'
 import {Customer} from '../../domains';
 import Responsible from '../../domains/models/Responsible';
 import District from '../../domains/models/District';
+import CareOfName from '../../domains/models/CareOfName';
 
 class Offer extends Component {
 
@@ -13,6 +14,7 @@ class Offer extends Component {
     state = {
         commercialName: '',
         responsibleName: '',
+        careOfName: '',
         caelumDistrict: '',
         selectedCourses: [],
     };
@@ -22,15 +24,14 @@ class Offer extends Component {
         const formElements = target.closest('form').elements
         const name = target.getAttribute('name')
         const value = formElements[name].value
-
         this.setState({[name]: value})
     };
 
     handleSubmit = () => {
 
-        const {selectedCourses, commercialName, responsibleName, caelumDistrict} = this.state;
+        const {selectedCourses, commercialName, careOfName, responsibleName, caelumDistrict} = this.state;
 
-        Api.downloadOffer(new Customer(commercialName), new Responsible(responsibleName), new District(caelumDistrict), selectedCourses);
+        Api.downloadOffer(new Customer(commercialName), new Responsible(responsibleName), new CareOfName(careOfName), new District(caelumDistrict), selectedCourses);
 
     };
 
@@ -83,7 +84,6 @@ class Offer extends Component {
 
         }, 500);
 
-
     };
 
     removeSelectedCourse = (event, course) => {
@@ -107,7 +107,7 @@ class Offer extends Component {
 
     render() {
 
-        const {commercialName, responsibleName, caelumDistrict, isLoading, results, value, selectedCourses} = this.state;
+        const {commercialName, responsibleName, careOfName, caelumDistrict, isLoading, results, value, selectedCourses} = this.state;
         let disableSubmmit = selectedCourses.length === 0 || commercialName === '' || responsibleName === '' || caelumDistrict === '';
 
         return (
@@ -117,7 +117,6 @@ class Offer extends Component {
 
                 <Divider horizontal>Dados do cliente</Divider>
                 <Form onSubmit={this.handleSubmit}>
-
 
                     <Form.Field>
                         <Form.Input label="Empresa" name="commercialName" placeholder="Caixa Econômica Federal"
@@ -130,13 +129,18 @@ class Offer extends Component {
                     </Form.Field>
 
                     <Form.Field>
-                            <label className="unitLabel" htmlFor="caelumDistrict">Unidade</label>
-                            <select name="caelumDistrict" content={caelumDistrict} onChange={this.handleChange} required>
-                                <option value="" hidden>-- Selecione uma unidade --</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="BSB">Brasília</option>
-                            </select>
+                        <Form.Input label="Aos cuidados de" name="careOfName" placeholder="Responsável da empresa"
+                                    content={careOfName} onChange={this.handleChange} />
+                    </Form.Field>
+
+                    <Form.Field>
+                        <label className="unitLabel" htmlFor="caelumDistrict">Unidade</label>
+                        <select name="caelumDistrict" content={caelumDistrict} onChange={this.handleChange} required>
+                            <option value="" hidden>-- Selecione uma unidade --</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="BSB">Brasília</option>
+                        </select>
                     </Form.Field>
 
                     <Divider horizontal>Cursos</Divider>
