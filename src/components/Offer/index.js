@@ -124,13 +124,13 @@ class Offer extends Component {
                     </Form.Field>
 
                     <Form.Field>
-                        <Form.Input label="Responsável Caelum" name="responsibleName" placeholder="Bianca Cavalcante"
-                                    content={responsibleName} onChange={this.handleChange} required/>
+                        <Form.Input label="Aos cuidados de" name="careOfName" placeholder="Responsável da empresa"
+                                    content={careOfName} onChange={this.handleChange} />
                     </Form.Field>
 
                     <Form.Field>
-                        <Form.Input label="Aos cuidados de" name="careOfName" placeholder="Responsável da empresa"
-                                    content={careOfName} onChange={this.handleChange} />
+                        <Form.Input label="Responsável Caelum" name="responsibleName" placeholder="Bianca Cavalcante"
+                                    content={responsibleName} onChange={this.handleChange} required/>
                     </Form.Field>
 
                     <Form.Field>
