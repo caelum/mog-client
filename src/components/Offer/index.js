@@ -148,7 +148,7 @@ class Offer extends Component {
                     <Form.Field>
                         <Search
                             minCharacters={2} loading={isLoading}
-                            placeholder="FJ-11"
+                            placeholder="WD-01"
                             results={results}
                             value={value}
                             resultRenderer={this.resultRender}
